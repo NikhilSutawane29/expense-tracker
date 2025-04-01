@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: expense-tracker
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        sync: false
+      - key: DB_HOST
+        fromDatabase:
+          name: expense-tracker-db
+          property: host
+      - key: DB_NAME
+        fromDatabase:
+          name: expense-tracker-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: expense-tracker-db
+          property: user
+      - key: DB_PASS
+        fromDatabase:
+          name: expense-tracker-db
+          property: password
+
+databases:
+  - name: expense-tracker-db
+    databaseName: expense_tracker
+    plan: free 

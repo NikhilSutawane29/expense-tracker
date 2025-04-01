@@ -914,19 +914,4 @@ a:hover {
   .mobile-nav-bar {
     display: none !important;
   }
-}
-
-/* Demo instructions */
-.demo-instructions {
-  background-color: rgba(67, 97, 238, 0.1);
-  border-left: 4px solid var(--primary-color);
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  border-radius: 4px;
-}
-
-.demo-note {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: var(--primary-color);
 } 

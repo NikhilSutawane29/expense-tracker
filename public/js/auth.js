@@ -15,9 +15,6 @@ const AuthModule = (() => {
   // State
   let currentUser = null;
 
-  // Check if running on GitHub Pages
-  const isGitHubPages = window.location.hostname.includes('github.io');
-
   // Toggle between login and signup forms
   const toggleForms = (form) => {
     if (form === 'signup') {
@@ -152,24 +149,6 @@ const AuthModule = (() => {
     
     // Check authentication on load
     checkAuth();
-
-    // Auto login for GitHub Pages demo
-    if (isGitHubPages && !api.initializeToken()) {
-      // Add GitHub Pages demo instructions
-      const demoInstructions = document.createElement('div');
-      demoInstructions.className = 'demo-instructions';
-      demoInstructions.innerHTML = `
-        <p class="demo-note">This is a demo version running on GitHub Pages.</p>
-        <p>Login with the credentials below:</p>
-        <p><strong>Email:</strong> demo@example.com</p>
-        <p><strong>Password:</strong> password</p>
-      `;
-      authContainer.insertBefore(demoInstructions, loginForm);
-      
-      // Fill demo credentials 
-      document.getElementById('login-email').value = 'demo@example.com';
-      document.getElementById('login-password').value = 'password';
-    }
   };
 
   // Public API

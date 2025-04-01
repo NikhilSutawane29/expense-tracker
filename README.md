@@ -1,69 +1,164 @@
 # Daily Expense Tracker
 
-A responsive web application for tracking daily expenses across different categories.
-
-## Live Demo
-
-Visit the live demo: [Daily Expense Tracker](https://your-username.github.io/daily-expense-tracker)
+A full-stack web application for tracking daily expenses with user authentication, expense management, and visualization using HTML, CSS, JavaScript, Express.js, and MySQL.
 
 ## Features
 
-- Responsive design that works on mobile, tablet, and desktop
-- Track and categorize your expenses
-- Dashboard with expense statistics and charts
-- Filter expenses by category and date
-- Dark mode support
+- **User Authentication**: Secure login and signup with JWT and bcrypt
+- **Expense Management**: Add, edit, delete, and view expenses
+- **Categories**: Organize expenses by categories
+- **Dashboard**: Visualize expenses with charts and statistics
+- **Responsive Design**: Works on desktop and mobile devices
+- **Dark Mode**: Toggle between light and dark themes
 
-## GitHub Pages Deployment
+## Tech Stack
 
-The app has been configured to run entirely in the browser without requiring a backend server when deployed on GitHub Pages. It uses localStorage to store data and provides a mock API for demo purposes.
+- **Frontend**: HTML, CSS, JavaScript, Chart.js
+- **Backend**: Node.js, Express.js
+- **Database**: MySQL
+- **Authentication**: JWT, bcrypt
+- **Other libraries**: cors, dotenv, morgan
 
-### How to Deploy to GitHub Pages
+## Project Structure
 
-1. **Fork or clone this repository**
+```
+daily-expense-tracker/
+├── database/               # Database schema and scripts
+├── public/                 # Frontend static files
+│   ├── css/                # CSS stylesheets
+│   ├── js/                 # JavaScript files
+│   └── images/             # Images and icons
+├── src/                    # Backend source code
+│   ├── config/             # Configuration files
+│   ├── controllers/        # Request handlers
+│   ├── middleware/         # Express middleware
+│   ├── models/             # Database models
+│   ├── routes/             # API routes
+│   └── utils/              # Utility functions
+├── views/                  # Template files (if needed)
+├── .env                    # Environment variables
+├── package.json            # Project dependencies
+├── server.js               # Main application entry point
+└── README.md               # Project documentation
+```
 
-2. **Create a GitHub Pages branch**
-   - Go to your repository settings
-   - Navigate to the "Pages" section
-   - Choose branch "main" or "master" and the "/root" folder
-   - Click "Save"
+## Getting Started
 
-3. **Your site will be published at**:
-   `https://your-username.github.io/daily-expense-tracker`
+### Prerequisites
 
-## Development
+- Node.js (v14 or later)
+- MySQL (v5.7 or later)
 
-### Local Development
+### Installation
 
-To run this project locally with a backend server:
-
-1. Clone the repository
+1. Clone the repository:
    ```
-   git clone https://github.com/your-username/daily-expense-tracker.git
+   git clone <repository-url>
    cd daily-expense-tracker
    ```
 
-2. Install dependencies
+2. Install dependencies:
    ```
    npm install
    ```
 
-3. Set up your .env file with the necessary database connection info
+3. Create a MySQL database:
+   ```
+   mysql -u root -p
+   CREATE DATABASE expense_tracker;
+   EXIT;
+   ```
 
-4. Start the development server
+4. Import the database schema:
+   ```
+   mysql -u root -p expense_tracker < database/schema.sql
+   ```
+
+5. Configure environment variables:
+   ```
+   # Edit the .env file with your configuration
+   PORT=3000
+   JWT_SECRET=your_jwt_secret_key
+   DB_HOST=localhost
+   DB_USER=your_db_username
+   DB_PASS=your_db_password
+   DB_NAME=expense_tracker
+   NODE_ENV=development
+   ```
+
+6. Start the server:
+   ```
+   npm start
+   ```
+
+7. For development with auto-reload:
    ```
    npm run dev
    ```
 
-5. Open your browser and visit `http://localhost:3000`
+8. Open your browser and navigate to `http://localhost:3000`
 
-## Tech Stack
+## API Endpoints
 
-- HTML5, CSS3, JavaScript (ES6+)
-- Chart.js for data visualization
-- Express.js (for backend development version)
-- MySQL (for backend development version)
+### Authentication
+
+- `POST /api/auth/register` - Register a new user
+- `POST /api/auth/login` - Login a user
+- `GET /api/auth/profile` - Get user profile (protected)
+
+### Expenses
+
+- `GET /api/expenses` - Get all expenses for logged in user
+- `GET /api/expenses/:id` - Get a specific expense
+- `POST /api/expenses` - Create a new expense
+- `PUT /api/expenses/:id` - Update an expense
+- `DELETE /api/expenses/:id` - Delete an expense
+- `GET /api/expenses/summary` - Get expense summary by category
+- `GET /api/expenses/monthly` - Get monthly expense data
+
+### Categories
+
+- `GET /api/categories` - Get all categories
+- `GET /api/categories/:id` - Get a specific category
+- `POST /api/categories` - Create a new category (protected)
+
+## Deployment
+
+### Backend Deployment on Render
+
+1. Create a new Web Service on Render
+2. Connect your GitHub repository
+3. Configure the build settings:
+   - Build Command: `npm install`
+   - Start Command: `node server.js`
+4. Add environment variables in the Render dashboard
+
+### Database Deployment using PlanetScale
+
+1. Create a PlanetScale account
+2. Create a new database
+3. Update your connection details in the .env file
+
+### Frontend Deployment
+
+The frontend is served by the Express backend, so separate deployment is not needed.
+
+## Future Enhancements
+
+- Export expenses to CSV/PDF
+- Budget planning and tracking
+- Recurring expenses
+- Bill reminders
+- Mobile application using React Native
+- Multi-currency support
+- Expense sharing between users
 
 ## License
 
-MIT License 
+This project is licensed under the ISC License.
+
+## Acknowledgements
+
+- [Chart.js](https://www.chartjs.org/) for data visualization
+- [Font Awesome](https://fontawesome.com/) for icons
+- [Google Fonts](https://fonts.google.com/) for typography 

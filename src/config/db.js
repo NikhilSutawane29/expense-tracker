@@ -1,23 +1,12 @@
-const mysql = require('mysql2/promise');
+// Import the database adapter
+const db = require('../../database/db-adapter');
 require('dotenv').config();
-
-// Create a connection pool
-const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-});
 
 // Test database connection
 const testConnection = async () => {
   try {
-    const connection = await pool.getConnection();
+    await db.query('SELECT 1');
     console.log('Database connection successful');
-    connection.release();
     return true;
   } catch (error) {
     console.error('Database connection failed:', error);
@@ -26,6 +15,6 @@ const testConnection = async () => {
 };
 
 module.exports = {
-  pool,
+  pool: db, // Export the adapter as pool to maintain compatibility
   testConnection
 }; 
