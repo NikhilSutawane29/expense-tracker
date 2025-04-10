@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Expense Tracker - Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <link rel="stylesheet" href="../public/css/styles.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4F46E5',
+            secondary: '#10B981'
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Auth check script -->
+  <script src="../public/js/authCheck.js"></script>
+  <style>
+    .card-float {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translatey(0px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      }
+      50% {
+        transform: translatey(-10px);
+        box-shadow: 0 20px 30px rgba(0,0,0,0.08);
+      }
+      100% {
+        transform: translatey(0px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      }
+    }
+    
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(to right, #4F46E5, #10B981);
+      animation: morph 8s ease-in-out infinite;
+      opacity: 0.15;
+      z-index: -1;
+    }
+    
+    @keyframes morph {
+      0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+      50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+      100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    }
+    
+    .shape-1 {
+      height: 400px;
+      width: 400px;
+      top: -150px;
+      left: -100px;
+    }
+    
+    .shape-2 {
+      height: 300px;
+      width: 300px;
+      bottom: -150px;
+      right: -50px;
+      background: linear-gradient(to right, #10B981, #4F46E5);
+    }
+    
+    /* Modern form styles inspired by the example */
+    .form-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    
+    .form-group small {
+      display: block;
+      margin-bottom: 5px;
+      color: #6b7280;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .dark .form-group small {
+      color: #9ca3af;
+    }
+    
+    .form-control {
+      width: 100%;
+      height: 52px;
+      padding: 0 16px;
+      font-size: 16px;
+      background-color: #f3f4f6;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    
+    .dark .form-control {
+      background-color: rgba(55, 65, 81, 0.5);
+      color: white;
+    }
+    
+    .form-control:focus {
+      border-color: #4F46E5;
+      box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+    }
+    
+    .input-field-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-30%);
+      color: #9ca3af;
+    }
+    
+    .password-toggle {
+      cursor: pointer;
+    }
+    
+    .tab-indicator {
+      transition: all 0.3s ease;
+      height: 2px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background-color: #4F46E5;
+    }
+    
+    .dark .tab-indicator {
+      background-color: #818cf8;
+    }
+    
+    .custom-tabs {
+      position: relative;
+      display: flex;
+      border-bottom: 1px solid #e5e7eb;
+      margin-bottom: 24px;
+    }
+    
+    .custom-tab {
+      padding: 12px 24px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .custom-tab.active {
+      color: #4F46E5;
+    }
+    
+    .dark .custom-tab.active {
+      color: #818cf8;
+    }
+    
+    .form-fade-in {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .form-error {
+      color: #ef4444;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 min-h-screen flex flex-col items-center justify-center p-4 dark-mode-transition page-transition overflow-hidden">
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+
+  <div class="absolute top-4 right-4 z-10">
+    <button id="dark-mode-toggle" class="p-2 rounded-full text-gray-700 dark:text-gray-300 transition-all hover:bg-gray-200 dark:hover:bg-gray-700">
+      <i class="fas fa-moon dark:hidden"></i>
+      <i class="fas fa-sun hidden dark:block"></i>
+    </button>
+  </div>
+
+  <div class="max-w-md w-full space-y-8 glass-effect p-8 rounded-xl shadow-xl card-float backdrop-blur-sm bg-white/90 dark:bg-gray-800/80">
+    <div class="text-center">
+      <div class="flex justify-center mb-4">
+        <div class="w-16 h-16 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center">
+          <i class="fas fa-wallet text-3xl text-primary dark:text-indigo-400"></i>
+        </div>
+      </div>
+      <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-2">Daily Expense Tracker</h1>
+      <p class="text-sm text-gray-600 dark:text-gray-400">Track and manage your expenses efficiently</p>
+    </div>
+    
+    <div class="mt-8 space-y-6">
+      <div class="custom-tabs">
+        <button id="login-tab" class="custom-tab active">Login</button>
+        <button id="signup-tab" class="custom-tab">Sign Up</button>
+        <div class="tab-indicator" id="tab-indicator"></div>
+      </div>
+      
+      <!-- Login Form -->
+      <form id="login-form" class="mt-8 space-y-6 form-fade-in">
+        <div class="rounded-md shadow-sm space-y-4">
+          <div class="form-group">
+            <small>Email address</small>
+            <div class="relative">
+              <input id="login-email" name="email" type="email" required
+                    class="form-control appearance-none relative block w-full">
+              <div class="input-field-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <small>Password</small>
+            <div class="relative">
+              <input id="login-password" name="password" type="password" required
+                    class="form-control appearance-none relative block w-full">
+              <div class="input-field-icon password-toggle">
+                <i class="fas fa-eye-slash"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" 
+                class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-blue-500 hover:from-indigo-700 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+              <i class="fas fa-sign-in-alt group-hover:animate-bounce"></i>
+            </span>
+            Sign in
+          </button>
+        </div>
+        
+        <div class="flex items-center justify-center mt-4">
+          <span class="text-sm text-gray-500 dark:text-gray-400">Don't have an account? </span>
+          <button type="button" id="switch-to-signup" class="ml-1 text-sm text-primary dark:text-indigo-400 hover:underline">Create one now</button>
+        </div>
+      </form>
+      
+      <!-- Signup Form -->
+      <form id="signup-form" class="mt-8 space-y-6 hidden form-fade-in">
+        <div class="rounded-md shadow-sm space-y-4">
+          <div class="form-group">
+            <small>Full name</small>
+            <div class="relative">
+              <input id="signup-name" name="name" type="text" required
+                    class="form-control appearance-none relative block w-full">
+              <div class="input-field-icon">
+                <i class="fas fa-user"></i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <small>Email address</small>
+            <div class="relative">
+              <input id="signup-email" name="email" type="email" required
+                    class="form-control appearance-none relative block w-full">
+              <div class="input-field-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <small>Password</small>
+            <div class="relative">
+              <input id="signup-password" name="password" type="password" required
+                    class="form-control appearance-none relative block w-full">
+              <div class="input-field-icon password-toggle">
+                <i class="fas fa-eye-slash"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" 
+                class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-blue-500 hover:from-indigo-700 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+              <i class="fas fa-user-plus group-hover:animate-bounce"></i>
+            </span>
+            Create Account
+          </button>
+        </div>
+        
+        <div class="flex items-center justify-center mt-4">
+          <span class="text-sm text-gray-500 dark:text-gray-400">Already have an account? </span>
+          <button type="button" id="switch-to-login" class="ml-1 text-sm text-primary dark:text-indigo-400 hover:underline">Sign in</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <div class="mt-6 text-center text-xs text-gray-500 dark:text-gray-400">
+    <p>© 2023 Daily Expense Tracker | All Rights Reserved</p>
+  </div>
+
+  <script src="../public/js/darkMode.js"></script>
+  <script src="../public/js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const loginTab = document.getElementById('login-tab');
+      const signupTab = document.getElementById('signup-tab');
+      const loginForm = document.getElementById('login-form');
+      const signupForm = document.getElementById('signup-form');
+      const tabIndicator = document.getElementById('tab-indicator');
+      const switchToSignup = document.getElementById('switch-to-signup');
+      const switchToLogin = document.getElementById('switch-to-login');
+      
+      // Password toggle functionality
+      document.querySelectorAll('.password-toggle').forEach(toggle => {
+        toggle.addEventListener('click', function() {
+          const input = this.parentElement.parentElement.querySelector('input');
+          const icon = this.querySelector('i');
+          
+          if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+          } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+          }
+        });
+      });
+      
+      // Position the tab indicator initially
+      function updateTabIndicator(tab) {
+        tabIndicator.style.width = `${tab.offsetWidth}px`;
+        tabIndicator.style.left = `${tab.offsetLeft}px`;
+      }
+      
+      updateTabIndicator(loginTab);
+      
+      // Tab switching with animation
+      function showLoginTab() {
+        loginTab.classList.add('active');
+        signupTab.classList.remove('active');
+        
+        loginForm.classList.remove('hidden');
+        signupForm.classList.add('hidden');
+        
+        updateTabIndicator(loginTab);
+      }
+      
+      function showSignupTab() {
+        signupTab.classList.add('active');
+        loginTab.classList.remove('active');
+        
+        signupForm.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+        
+        updateTabIndicator(signupTab);
+      }
+      
+      loginTab.addEventListener('click', showLoginTab);
+      signupTab.addEventListener('click', showSignupTab);
+      switchToSignup.addEventListener('click', showSignupTab);
+      switchToLogin.addEventListener('click', showLoginTab);
+      
+      // Handle window resize
+      window.addEventListener('resize', function() {
+        const activeTab = loginForm.classList.contains('hidden') ? signupTab : loginTab;
+        updateTabIndicator(activeTab);
+      });
+    });
+  </script>
+</body>
+</html> 
