@@ -77,3 +77,71 @@
   </div>
 </body>
 </html> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- If error occurs in Backend after npm run dev so do this :-
+ 
+
+Welcome to MongoDB Participant!
+
+Interact with your MongoDB clusters and generate MongoDB-related code more efficiently with intelligent AI-powered feature, available today in the MongoDB extension.
+
+Please see our FAQ for more information.
+
+The error indicates that a required module (./cursor/abstract_cursor) is missing from the mongodb package. This issue often arises due to an incomplete or corrupted installation of the mongodb or mongoose package.
+
+Steps to Resolve:
+Delete node_modules and package-lock.json: Run the following commands to remove the node_modules folder and package-lock.json file:
+
+-- rm -rf node_modules package-lock.json
+
+Reinstall Dependencies: Reinstall all dependencies using:
+
+-- npm install
+
+Ensure Correct Versions: Check the versions of mongoose and mongodb in your package.json. Ensure compatibility between the two. For example:
+
+mongoose version 7.x works with mongodb version 5.x. If needed, install compatible versions:
+
+
+-- npm install mongoose@7.0.0 mongodb@5.0.0
+
+
+
+Clear npm Cache (Optional): If the issue persists, clear the npm cache and reinstall:
+
+
+-- npm cache clean --force
+npm install
+
+
+Verify Node.js Version: Ensure you are using a supported Node.js version. mongoose and mongodb typically require Node.js 14.x or higher. If your version is outdated, update it.
+
+Run the Application: Start your application again:
+
+
+
+-- npm run dev
+
+
+If the issue persists, let me know!
+
+
+
+
+
+
+
+-->
